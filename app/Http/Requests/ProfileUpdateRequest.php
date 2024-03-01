@@ -17,7 +17,15 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'not_regex:/[^a-zA-Z0-9_]/'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'not_regex' => 'The username may only contain letters, numbers, and underscores.',
         ];
     }
 }
